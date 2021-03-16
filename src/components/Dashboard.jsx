@@ -67,7 +67,7 @@ const Dashboard = () => {
               </Card.Body>
             </Card>
           </div>
-          <div className='col-5'>
+          <div className='col-xl-5 col-md-12 mt-xl-0 mt-4'>
             <div className='border rounded p-4'>
               <label className='font-weight-bold'>Add a post!</label>
               <input
@@ -78,7 +78,7 @@ const Dashboard = () => {
                 placeholder='Enter post message'
               />
               <button
-                className='btn btn-success btn-sm'
+                className='btn btn-success btn-sm mt-2'
                 onClick={() => addPost({ text, id: uuidv4() })}
               >
                 Post!
@@ -88,7 +88,16 @@ const Dashboard = () => {
               <h4 className='mb-4'>Posts</h4>
               {posts.map((item) => (
                 <div key={item}>
-                  <li className='list-group-item'>{item.text}</li>
+                  <li className='list-group-item'>
+                    <span className='font-weight-bold'>
+                      {currentUser.email.slice(
+                        0,
+                        currentUser.email.indexOf('@')
+                      )}
+                      :{' '}
+                    </span>
+                    {item.text}{' '}
+                  </li>
                 </div>
               ))}
             </ul>
