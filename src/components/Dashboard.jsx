@@ -43,6 +43,7 @@ const Dashboard = () => {
       .catch((err) => {
         console.error(err)
       })
+    setText('')
   }
   const handleLogout = async () => {
     setError('')
@@ -78,7 +79,7 @@ const Dashboard = () => {
                 placeholder='Enter post message'
               />
               <button
-                className='btn btn-success btn-sm mt-2'
+                className='btn btn-success btn-sm mt-2 w-100'
                 onClick={() => addPost({ text, id: uuidv4() })}
               >
                 Post!
