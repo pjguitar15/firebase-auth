@@ -39,8 +39,11 @@ const UpdateProfile = () => {
   }
 
   return (
-    <div>
-      <Card>
+    <div
+      className='d-flex align-items-center justify-content-center flex-column'
+      style={{ minHeight: '100vh' }}
+    >
+      <Card className='col-xl-3'>
         <Card.Body>
           <h2 className='text-center mb-4'>Update Profile</h2>
 

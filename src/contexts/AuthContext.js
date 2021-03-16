@@ -1,10 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { auth } from '../firebase'
 const AuthContext = React.createContext()
+
+// this function creates the CUSTOM HOOK
 export function useAuth() {
   return useContext(AuthContext)
 }
+
+// main function
 export function AuthProvider({ children }) {
+
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
   function signup(email, password) {

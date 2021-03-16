@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { Card, Form, Button, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
 import { Link, useHistory } from 'react-router-dom'
+import LogoutNav from './LogoutNav.jsx'
 const Signup = () => {
   const emailRef = useRef()
   const passwordRef = useRef()
@@ -27,8 +28,12 @@ const Signup = () => {
   }
 
   return (
-    <div>
-      <Card>
+    <div
+      className='d-flex align-items-center justify-content-center flex-column'
+      style={{ minHeight: '100vh' }}
+    >
+      <LogoutNav />
+      <Card className='col-xl-3'>
         <Card.Body>
           <h2 className='text-center mb-4'>Sign Up</h2>
 
