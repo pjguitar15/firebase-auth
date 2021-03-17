@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Card, Alert, Container, Row } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
 import { useHistory } from 'react-router-dom'
@@ -9,6 +9,7 @@ const Dashboard = () => {
   const [error, setError] = useState('')
   const { currentUser, logout } = useAuth()
   const history = useHistory()
+  const messagesEndRef = useRef(null)
 
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(false)
@@ -56,6 +57,14 @@ const Dashboard = () => {
     }
   }
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [posts])
+
   const generateDate = () => {
     const date = new Date()
     return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`
@@ -65,12 +74,13 @@ const Dashboard = () => {
       <NavbarComponent handleLogout={handleLogout} />
       <Container className='mt-5'>
         <Row>
-          <div className='col-xl-3'>
-            <Card>
+          <div className='col-xl-4'>
+            <Card className='mb-4'>
               <Card.Body>
-                <h2 className='text-center mb-4'>Profile</h2>
+                <h5 className='text-center lead'>
+                  Logged in as <strong>{currentUser.email}</strong>
+                </h5>
                 {error && <Alert variant='danger'>{error}</Alert>}
-                <strong>Email:</strong> {currentUser.email}
               </Card.Body>
             </Card>
           </div>
@@ -88,39 +98,33 @@ const Dashboard = () => {
                 </div>
               )}
 
-              {posts
-                .map((item, index) =>
-                  item.email !== currentUser.email ? (
-                    <div key={index}>
-                      <li className='list-group-item border-right-0 border-left-0 border-top-0'>
-                        <span className='font-weight-bold text-muted'>
-                          {item.email.slice(0, item.email.indexOf('@'))}:
-                        </span>
-                        <span> {item.text}</span>
-                        <div
-                          className='text-muted'
-                          style={{ fontSize: '12px' }}
-                        >
-                          {item.date}
-                        </div>
-                      </li>
-                    </div>
-                  ) : (
-                    <div key={index} className='text-primary'>
-                      <li className='list-group-item border-right-0 border-left-0 border-top-0 text-right'>
-                        <span className='font-weight-bold'>You:</span>
-                        <span> {item.text}</span>
-                        <div
-                          className='text-muted'
-                          style={{ fontSize: '12px' }}
-                        >
-                          {item.date}
-                        </div>
-                      </li>
-                    </div>
-                  )
+              {posts.map((item, index) =>
+                item.email !== currentUser.email ? (
+                  <div key={index}>
+                    <li className='list-group-item border-right-0 border-left-0 border-top-0'>
+                      <span className='font-weight-bold text-muted'>
+                        {item.email.slice(0, item.email.indexOf('@'))}:
+                      </span>
+                      <span> {item.text}</span>
+                      <div className='text-muted' style={{ fontSize: '12px' }}>
+                        {item.date}
+                      </div>
+                    </li>
+                    <div ref={messagesEndRef} />
+                  </div>
+                ) : (
+                  <div key={index} className='text-primary'>
+                    <li className='list-group-item border-right-0 border-left-0 border-top-0 text-right'>
+                      <span className='font-weight-bold'>You:</span>
+                      <span> {item.text}</span>
+                      <div className='text-muted' style={{ fontSize: '12px' }}>
+                        {item.date}
+                      </div>
+                    </li>
+                    <div ref={messagesEndRef} />
+                  </div>
                 )
-                .reverse()}
+              )}
             </ul>
 
             <div className='w-100 mt-2'>
