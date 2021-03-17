@@ -19,7 +19,7 @@ const Dashboard = () => {
   //REALTIME GET FUNCTION
   function getSchools() {
     setLoading(true)
-    ref.onSnapshot((querySnapshot) => {
+    ref.orderBy('orderNum').onSnapshot((querySnapshot) => {
       const items = []
       querySnapshot.forEach((doc) => {
         items.push(doc.data())
@@ -43,6 +43,7 @@ const Dashboard = () => {
       .catch((err) => {
         console.error(err)
       })
+
     setText('')
   }
   const handleLogout = async () => {
@@ -53,6 +54,11 @@ const Dashboard = () => {
     } catch {
       setError('Failed to logout')
     }
+  }
+
+  const generateDate = () => {
+    const date = new Date()
+    return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`
   }
   return (
     <>
@@ -68,40 +74,78 @@ const Dashboard = () => {
               </Card.Body>
             </Card>
           </div>
-          <div className='col-xl-5 col-md-12 mt-xl-0 mt-4'>
-            <div className='border rounded p-4'>
-              <label className='font-weight-bold'>Add a post!</label>
+          <div className='col-xl-7 col-md-12'>
+            <h4 className='mb-4'>Chat</h4>
+            <ul
+              className='list-group p-4 border rounded'
+              style={{ height: '60vh', overflow: 'scroll' }}
+            >
+              {loading && <h4>Loading...</h4>}
+              {posts.length === 0 && (
+                <div>
+                  <h4>No chats yet</h4>
+                  <p>Start a conversation!</p>
+                </div>
+              )}
+
+              {posts
+                .map((item, index) =>
+                  item.email !== currentUser.email ? (
+                    <div key={index}>
+                      <li className='list-group-item border-right-0 border-left-0 border-top-0'>
+                        <span className='font-weight-bold text-muted'>
+                          {item.email.slice(0, item.email.indexOf('@'))}:
+                        </span>
+                        <span> {item.text}</span>
+                        <div
+                          className='text-muted'
+                          style={{ fontSize: '12px' }}
+                        >
+                          {item.date}
+                        </div>
+                      </li>
+                    </div>
+                  ) : (
+                    <div key={index} className='text-primary'>
+                      <li className='list-group-item border-right-0 border-left-0 border-top-0 text-right'>
+                        <span className='font-weight-bold'>You:</span>
+                        <span> {item.text}</span>
+                        <div
+                          className='text-muted'
+                          style={{ fontSize: '12px' }}
+                        >
+                          {item.date}
+                        </div>
+                      </li>
+                    </div>
+                  )
+                )
+                .reverse()}
+            </ul>
+
+            <div className='w-100 mt-2'>
               <input
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 type='text'
                 className='form-control '
-                placeholder='Enter post message'
+                placeholder='Enter a message'
               />
               <button
                 className='btn btn-success btn-sm mt-2 w-100'
-                onClick={() => addPost({ text, id: uuidv4() })}
+                onClick={() =>
+                  addPost({
+                    text,
+                    id: uuidv4(),
+                    email: currentUser.email,
+                    date: generateDate(),
+                    orderNum: posts.length,
+                  })
+                }
               >
-                Post!
+                Send message!
               </button>
             </div>
-            <ul className='mt-4 list-group p-4 border rounded'>
-              <h4 className='mb-4'>Posts</h4>
-              {posts.map((item) => (
-                <div key={item}>
-                  <li className='list-group-item'>
-                    <span className='font-weight-bold'>
-                      {currentUser.email.slice(
-                        0,
-                        currentUser.email.indexOf('@')
-                      )}
-                      :{' '}
-                    </span>
-                    {item.text}{' '}
-                  </li>
-                </div>
-              ))}
-            </ul>
           </div>
         </Row>
       </Container>

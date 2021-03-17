@@ -1,6 +1,5 @@
 import React from 'react'
 import '../App.css'
-import { Container } from 'react-bootstrap'
 import Signup from './Signup.jsx'
 import Dashboard from './Dashboard.jsx'
 import Login from './Login.jsx'
