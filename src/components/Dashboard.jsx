@@ -101,7 +101,7 @@ const Dashboard = () => {
               {posts.map((item, index) =>
                 item.email !== currentUser.email ? (
                   <div key={index}>
-                    <li className='list-group-item border-right-0 border-left-0 border-top-0'>
+                    <li className='list-group-item border-right-0 border-left-0 border-bottom-0'>
                       <span className='font-weight-bold text-muted'>
                         {item.email.slice(0, item.email.indexOf('@'))}:
                       </span>
@@ -114,7 +114,7 @@ const Dashboard = () => {
                   </div>
                 ) : (
                   <div key={index} className='text-primary'>
-                    <li className='list-group-item border-right-0 border-left-0 border-top-0 text-right'>
+                    <li className='list-group-item border-right-0 border-left-0 border-bottom-0 text-right'>
                       <span className='font-weight-bold'>You:</span>
                       <span> {item.text}</span>
                       <div className='text-muted' style={{ fontSize: '12px' }}>
