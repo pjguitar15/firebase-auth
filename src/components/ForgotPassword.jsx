@@ -23,11 +23,8 @@ const ForgotPassord = () => {
     setLoading(false)
   }
   return (
-    <div
-      className='d-flex align-items-center justify-content-center'
-      style={{ minHeight: '100vh' }}
-    >
-      <Card>
+    <div>
+      <Card className='col-xl-4 col-md-6 col-lg-6 mx-auto mt-5'>
         <Card.Body>
           <h2 className='text-center mb-4'>Password Reset</h2>
 
