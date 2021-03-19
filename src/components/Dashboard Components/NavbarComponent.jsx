@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 const NavbarComponent = ({ handleLogout }) => {
   return (
     <Navbar bg='dark' expand='lg' className='sticky-top navbar-dark'>
-      <Navbar.Brand href='#home'>Chat App</Navbar.Brand>
+      <Navbar.Brand>Chat App</Navbar.Brand>
       <Navbar.Toggle aria-controls='basic-navbar-nav' />
       <Navbar.Collapse id='basic-navbar-nav'>
         <div className='ml-auto'>
